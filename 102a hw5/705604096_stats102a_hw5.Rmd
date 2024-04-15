@@ -1,0 +1,289 @@
+---
+title: "705604096_stats102a_hw5"
+author: "Jade Gregory"
+date: "2023-03-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source('705604096_stats102a_hw5.R')
+```
+
+
+# Part 1
+## Question 1
+a)
+The starting interval is [-3, -2]
+```{r}
+bisec_a <- function(f, tol, x_l, x_r){
+  x_l <- -3
+  x_r <- -2
+  tol <- 1e-8
+  f_l <- f_parta(x_l)
+  f_r <- f_parta(x_r)
+  if(f_l * f_r >= 0){
+    stop('Error: Checks not passed')
+  }
+  if(x_l > x_r){
+    stop('Error: Checks not passed')
+  }
+  if(tol <= 0){
+    stop('Error: Checks not passed')
+  }
+  its <- 0 
+  for(i in 1:1000){
+  while(x_r - x_l > tol){
+    x_m <- (x_l + x_r) / 2
+    f_m <- f_parta(x_m)
+    if(identical(all.equal(f_m, 0), TRUE)){break}
+    if(f_l * f_m < 0 ){
+      x_r <- x_m
+    } else{
+      x_l <- x_m
+    }
+    its <- its + 1
+  }
+  }
+  print(its)
+  x_m
+}
+bisec_a(f_parta)
+```
+
+b)
+The starting interval is [2, 3]
+```{r}
+f_partb <- function(x){
+  x^x - 18
+}
+bisec_b <- function(f, tol, x_l, x_r){
+  x_l <- 2
+  x_r <- 3
+  tol <- 1e-8
+  f_l <- f_partb(x_l)
+  f_r <- f_partb(x_r)
+  if(f_l * f_r >= 0){
+    stop('Error: Checks not passed')
+  }
+  if(x_l > x_r){
+    stop('Error: Checks not passed')
+  }
+  if(tol <= 0){
+    stop('Error: Checks not passed')
+  }
+  its <- 0 
+  for(i in 1:1000){
+  while(x_r - x_l > tol){
+    x_m <- (x_l + x_r) / 2
+    f_m <- f_partb(x_m)
+    if(identical(all.equal(f_m, 0), TRUE)){break}
+    if(f_l * f_m < 0 ){
+      x_r <- x_m
+    } else{
+      x_l <- x_m
+    }
+    its <- its + 1
+  }
+  }
+  print(its)
+  x_m
+}
+bisec_b(f_partb)
+```
+
+
+c)
+The starting interval is [1, 2]
+```{r}
+f_partc <- function(x){
+  exp(-(x^2)) - 0.1
+}
+bisec_c <- function(f, tol, x_l, x_r){
+  x_l <- 1
+  x_r <- 2
+  tol <- 1e-8
+  f_l <- f_partc(x_l)
+  f_r <- f_partc(x_r)
+  if(f_l * f_r >= 0){
+    stop('Error: Checks not passed')
+  }
+  if(x_l > x_r){
+    stop('Error: Checks not passed')
+  }
+  if(tol <= 0){
+    stop('Error: Checks not passed')
+  }
+  its <- 0 
+  for(i in 1:1000){
+  while(x_r - x_l > tol){
+    x_m <- (x_l + x_r) / 2
+    f_m <- f_partc(x_m)
+    if(identical(all.equal(f_m, 0), TRUE)){break}
+    if(f_l * f_m < 0 ){
+      x_r <- x_m
+    } else{
+      x_l <- x_m
+    }
+    its <- its + 1
+  }
+  }
+  print(its)
+  x_m
+}
+bisec_c(f_partc)
+```
+
+## Question 2
+This code is meant to use the fixed point iteration method to find a root of the equation in part b. We do this by first defining the arguments used in our code, notably our x_old and x_new. Our initial x_new value will be the value of our x_old in our g(x) function. Then, we run a while loop that will run as long as the absolute value of the difference of our x_old and x_new is greater than the value of our tolerance. In the loop, we will update our x_old and x_new values which will give us our root value, as well as update the count of our iteration. I added a check in case our logarithm produced NaN values, breaking the loop if any NaNs were produced as it would give us an error. Then, we print the iterations and the root value.
+```{r}
+g_part2 <- function(x){
+  log(18, x)
+}
+fpi <- function(f, tol, x_old, x_new){
+  x_old <- 5
+  x_new <- g_part2(x_old)
+  its <- 0
+  tol <- 1e-8
+  while(abs(x_new - x_old) > tol){
+  x_old <- x_new
+  x_new <- g_part2(x_old)
+  its <- its + 1
+  if(x_new < 0){
+    x_new <- x_old
+    break
+    }
+  }
+  print(its)
+  x_new
+}
+fpi(g_part2)
+```
+
+## Question 3
+a)
+![get_sqrt flowchart](/Users/jadegregory/102a hw5/get_sqrt flowchart.jpeg)
+
+```{r}
+f_reg <- function(x, a){
+  x * x - a
+}
+f_prime <- function(x){
+  2 * x
+}
+get_sqrt <- function(a, tol, iter_max = 1000, verbose = TRUE){
+  if(a < 0){
+    stop('a must be non negative')
+  }
+  its <- 0
+  x <- 2
+  tol <- 1e-8
+  while((abs(f_reg(x, a)) > tol) & its < iter_max){
+  x <- x - f_reg(x, a) / f_prime(x)
+  its <- its + 1
+  }
+  if(verbose == TRUE){
+    print(its)
+  }
+  x
+}
+```
+
+b)
+```{r}
+get_sqrt(5)
+```
+
+c)
+We would have to introduce a new argument that indicated what root to take of our arbitrary number. We could call this new argument root, and a would represent the number we want to take the root of. The equation would look as follows: a^(1/root) to find the nth root of a. Our new update would look like: x^root - a.
+
+d)
+![get_abroot flowchart](/Users/jadegregory/102a hw5/get_abroot flowchart.jpeg)
+
+```{r}
+f_reg2 <- function(x, a, b){
+  x^b - a
+}
+f_prime2 <- function(x, b){
+  b*x^(b-1)
+}
+get_abroot <- function(a, b, tol, iter_max = 1000, verbose = TRUE){
+  if(a < 0 | b < 0){
+    stop('a and b must be non negative')
+  }
+  its <- 0
+  x <- 5
+  tol <- 1e-8
+  while((abs(f_reg2(x, a, b)) > tol) & its < iter_max){
+    x <- x - f_reg2(x, a, b) / f_prime2(x, b)
+    its <- its + 1
+  }
+  if(verbose == TRUE){
+    print(its)
+  }
+  x
+}
+```
+
+e)
+
+```{r}
+get_abroot(13, 7)
+```
+
+f)
+```{r}
+x1 <- 5 - abs(f_reg2(5, 13, 7)) / f_prime2(5, 7)
+x2 <- x1 - abs(f_reg2(x1, 13, 7)) / f_prime2(x1, 7)
+x3 <- x2 - abs(f_reg2(x2, 13, 7)) / f_prime2(x2, 7)
+x4 <- x3 - abs(f_reg2(x3, 13, 7)) / f_prime2(x3, 7)
+ek <- c(x1, x2, x3, x4)
+list("First Iteration" = x1, 
+     "Second Iteration" = x2,
+     "Third Iteration" = x3,
+     "Fourth Iteration" = x4)
+
+```
+## Part 2
+
+a)
+There is a minimum when the derivative of the equation equals 0. Therefore, there is a minimum when 
+n(x^(n-1)) - (an)/x = 0.
+
+b)
+$$
+x_{n+1} = x_n - \frac{n(x^{n-1}) - ({\alpha}n)/x}{n^2x^{n-2}-\frac{n{\cdot}(x^n-{\alpha})}{x^2}}
+$$
+c)
+![get_min flowchart](/Users/jadegregory/102a hw5/get_min flowchart.jpeg)
+
+```{r}
+f_expr <- expression(x^n - n*a*log(x))
+f_prime_1 <-  D(f_expr, name = "x")
+f_prime_2 <-  D(f_prime_1, name = "x")
+get_min <- function(f, x, n, a){
+  x <- 1
+  its <- 0
+  tol <- 1e-8
+  while(abs(eval(f_prime_1)) > tol){
+  x <- x - eval(f_prime_1) / eval(f_prime_2)
+  its <- its + 1
+  }
+  print(its)
+  x
+}
+get_min(f_expr, 1, 2, 3)
+```
+
+d)
+```{r}
+f <- function(x, n, a){
+  n <- 2
+  a <- 3
+  x^n - n*a*log(x)
+}
+curve(f(x, n, a), from = 0, to = 10)
+```
+
+
+

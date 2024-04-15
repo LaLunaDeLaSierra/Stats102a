@@ -1,0 +1,106 @@
+---
+title: "705604096_stats102a_hw3"
+author: "Jade Gregory"
+date: "2023-02-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(stringr)
+source('705604096_stats102a_hw3.R')
+```
+
+## Question 1
+
+a)
+```{r}
+ingredient <- read.csv('ingredient.csv')
+ingredient %>% filter(recipe == 'Beef Burger') %>%
+  select(food_item)
+```
+
+b)
+```{r}
+ingredient %>% filter(substr(food_item, 1, 6) == "Tomato" | substr(food_item, 1, 5) == "Bread") %>%
+  select(recipe, weight..oz.)
+```
+
+c)
+```{r}
+stock <- read.csv('stock.csv')
+stock %>% filter(shop != 'Food warehouse', food_item == 'Turkey' | food_item == 'Meatballs' | food_item == 'Ground Beef') 
+```
+
+d)
+```{r}
+food_item <- read.csv('food_item.csv')
+ingredient %>% inner_join(food_item, by = c('food_item' = 'item')) %>% 
+  select(recipe, calories)
+```
+## Question 2
+
+# 1
+
+a)
+```{r}
+names <- unlist(read.csv('names.txt', sep = '\n'), use.names = FALSE)
+names[str_detect(names, pat_1_a)]
+```
+
+b)
+```{r}
+names[str_detect(names, pat_1_b)]
+```
+
+c)
+```{r}
+names[str_detect(names, '(?:[A-Z][a-z]+)+$')]
+#rewrite this pattern because it does not give correct output
+```
+
+# 2
+
+a)
+
+```{r}
+cards <- unlist(read.csv('cards.txt', sep = '\n'), use.names = FALSE)
+apply(str_match(cards[str_detect(cards, pat_2_a)], pat_2_a)[,2:5], 1, paste, collapse = ' ')
+```
+
+b)
+```{r}
+apply(str_match(cards[str_detect(cards, pat_2_b)], pat_2_b)[,2:5], 1, paste, collapse = ' ')
+```
+
+# 3
+
+a)
+```{r}
+passwords <- unlist(read.table('passwords.txt', sep = '\n'), use.names = FALSE)
+passwords[str_detect(passwords, pat_3_a)]
+```
+
+b)
+```{r}
+passwords[str_detect(passwords, pat_3_b)]
+```
+
+# 4
+
+a)
+```{r}
+load('wordlists.RData')
+wordlists$Ranges$x[str_detect(wordlists$Ranges$x, pat_4_a)]
+```
+
+b)
+```{r}
+wordlists$Backrefs$x[str_detect(wordlists$Backrefs$x, pat_4_b)]
+```
+c)
+```{r}
+wordlists$Prime$x[str_detect(wordlists$Prime$x, pat_4_c)]
+```
+

@@ -1,0 +1,51 @@
+---
+title: "705604096_stats102a_hw1"
+author: "Jade Gregory"
+date: "1/17/2023"
+output: html_document
+---
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("705604096_stats102a_hw1.R")
+```
+
+## Problem 1
+
+a) GCD Function
+
+
+![gcd flowchart](/Users/jadegregory/102a hw1/gcd.jpeg)
+
+
+```{r}
+gcd(72, 8)
+gcd(-1, 531)
+gcd(47011, 73618)
+```
+
+b) LCM Function
+
+![LCM Flowchart](/Users/jadegregory/102a hw1/lcm flowchart.jpeg)
+```{r}
+lcm(c(12, 21))
+lcm(c(4789, 6123, 199))
+```
+
+## Problem 2
+
+a) is_prime Function
+
+![is_prime Flowchart](/Users/jadegregory/102a hw1/is_prime flowchart.jpeg)
+
+```{r}
+is_prime(c(9, 7, 1))
+```
+
+b) get_factors Function
+
+![get_factors Flowchart](/Users/jadegregory/102a hw1/get_factors flowchart.jpeg)
+
+```{r}
+get_factors(1920)
+```
+

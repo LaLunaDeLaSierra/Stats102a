@@ -1,0 +1,83 @@
+---
+title: "705604096_stats102a_hw2"
+author: "Jade Gregory"
+date: "2023-02-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("705604096_stats102a_hw2.R")
+```
+
+## Question 1
+
+a)
+```{r}
+set.seed(705604096)
+gradebook <- data.frame(UID = runif(100, 111111111, 10^9) %/% 1, 
+                        Homework_1 = runif(100, 0, 100) %/% 1,
+                        Homework_2 = runif(100, 0, 100) %/% 1,
+                        Homework_3 = runif(100, 0, 100) %/% 1,
+                        Homework_4 = runif(100, 0, 100) %/% 1,
+                        Homework_5 = runif(100, 0, 100) %/% 1,
+                        Quiz_1 = runif(100, 0, 100) %/% 1,
+                        Quiz_2 = runif(100, 0, 100) %/% 1,
+                        Quiz_3 = runif(100, 0, 100) %/% 1,
+                        Quiz_4 = runif(100, 0, 100) %/% 1,
+                        Quiz_5 = runif(100, 0, 100) %/% 1
+                        )
+print(gradebook)
+```
+
+b)
+```{r}
+gradebook$Homework_4[sample(100, 10)] <- NA
+gradebook$Quiz_4[sample(100,10)] <- NA
+sum(is.na(gradebook$Homework_4))
+sum(is.na(gradebook$Quiz_4))
+```
+
+c) 
+![messy_impute Flowchart (1)](/Users/jadegregory/102a hw2/ messy_impute_flowchart.jpeg)
+![messy_impute Flowchart(2)](/Users/jadegregory/102a hw2/ messy_impute flowchart2.jpeg)
+
+d)
+
+```{r}
+messy_impute(gradebook, "mean", 1)
+messy_impute(gradebook, "median", 2)
+messy_impute(gradebook, "mean", 1, trim = 0.25)
+```
+e)
+```{r, error = TRUE}
+gradebook_tidy <- gradebook %>% pivot_longer(c("Homework_1", "Homework_2","Homework_3","Homework_4", "Homework_5","Quiz_1", "Quiz_2","Quiz_3","Quiz_4","Quiz_5"), names_to = "assignment_Type", values_to = "Score" ) %>%
+  separate(assignment_Type, into = c("assignmentType","assignmentNumber"))
+ gradebook_tidy
+```
+
+f)
+
+![tidy_impute Flowchart](/Users/jadegregory/102a hw2/tidy_impute flowchart.jpeg)
+
+g)
+```{r, error = TRUE}
+tidy_impute(gradebook_tidy, "mean", 1)
+tidy_impute(gradebook_tidy, "median", 2)
+tidy_impute(gradebook_tidy, "mean", 1, trim = 0.25)
+```
+
+## Question 2
+
+a)
+
+Three ways in which data might be naturally presented in a messy way include
+a weather report over a certain amount of time, hotel booking data, and trending YouTube statistics. These were collected from [link to data](https://analyticsindiamag.com/10-datasets-for-data-cleaning-practice-for-beginners/)
+
+b)
+For all of these data sets, you can make use of functions such as pivot_wider(), pivot_longer(), separate(), and unite() amongst others to create tidier data tables that satisfy the three rules for tidy data:
+- each variable has its own column
+- each observation has its own row
+- each value has its own cell
+
+

@@ -1,0 +1,54 @@
+---
+title: "705604096_stats102a_hw4"
+author: "Jade Gregory"
+date: "2023-03-09"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source('705604096_stats102a_hw4.R')
+```
+
+## Question 1
+
+a)
+
+![pqnumber flowchart](/Users/jadegregory/Desktop/pqnumber.jpeg)
+![is_pqnumber flowchart](/Users/jadegregory/Desktop/is_pqnumber.jpeg)
+![print.pqnumber flowchart](/Users/jadegregory/Desktop/print.pqnumber.jpeg.jpg)
+![as_numeric.pqnumber](/Users/jadegregory/Desktop/as_numeric.pqnumber.jpeg.jpg)
+
+![subtract flowchart](/Users/jadegregory/Desktop/subtract.jpeg)
+![carry_over flowchart](/Users/jadegregory/Desktop/carry_over.jpeg)
+![add flowchart](/Users/jadegregory/Desktop/addflowchart.jpeg)
+![multiply flowchart](/Users/jadegregory/Desktop/multiplyflowchart.jpeg)
+```{r}
+x <- pqnumber(1, 3, 4, 1:8)
+y <- pqnumber(1, 6, 0, c(3, 9, 5, 1, 4, 1, 3))
+z <- pqnumber( -1, 5, 1, c(2, 8, 2, 8, 1, 7, 2))
+```
+
+
+```{r}
+is_pqnumber(x)
+is_pqnumber(3)
+```
+
+```{r error = TRUE}
+z <- as_numeric.pqnumber(87654.321, 3, 4)
+print(z, FALSE)
+```
+b)
+```{r error = TRUE}
+add(x, x)
+```
+
+```{r error = TRUE}
+subtract(x, y)
+```
+
+```{r error = TRUE}
+multiply(x, y)
+```
+
